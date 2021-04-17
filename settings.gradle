@@ -1,0 +1,2 @@
+include ':app'
+rootProject.name = "Opengl  Camera and Video Tutorial"
