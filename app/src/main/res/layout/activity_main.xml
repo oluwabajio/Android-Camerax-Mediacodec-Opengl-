@@ -27,6 +27,14 @@
          android:layout_marginTop="30dp"
          android:text="Decode Mp4"/>
 
+
+     <Button
+         android:id="@+id/btnDecodeMp4MultipleSurface"
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:layout_marginTop="30dp"
+         android:text="Decode Mp4 (Multiple Surface)"/>
+
  </LinearLayout>
 
 </RelativeLayout>

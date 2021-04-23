@@ -91,7 +91,7 @@ public class CameraRenderer implements GLSurfaceView.Renderer, ImageAnalysis.Ana
             GLES20.glGenTextures(2, textures, 0);
 
             GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, textures[0]); // Upload to texture
-            GLUtils.texImage2D(GLES20.GL_TEXTURE_2D, 0, image, 0);
+            GLUtils.texImage2D(GLES20.GL_TEXTURE_2D, 0, image, 0); //we are always passing in bitmap to generate the texture
 
             // Set texture parameters
             setTextureParameters();

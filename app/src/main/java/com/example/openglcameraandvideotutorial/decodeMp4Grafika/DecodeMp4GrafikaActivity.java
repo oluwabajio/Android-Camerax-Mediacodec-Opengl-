@@ -1,16 +1,12 @@
-package com.example.openglcameraandvideotutorial.decode_mp4;
+package com.example.openglcameraandvideotutorial.decodeMp4Grafika;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.graphics.Bitmap;
 import android.graphics.SurfaceTexture;
 import android.media.MediaCodec;
-import android.media.MediaCodecInfo;
 import android.media.MediaExtractor;
 import android.media.MediaFormat;
-import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -21,38 +17,36 @@ import android.widget.Toast;
 
 import com.example.openglcameraandvideotutorial.R;
 import com.example.openglcameraandvideotutorial.databinding.ActivityDecodeMp4Binding;
+import com.example.openglcameraandvideotutorial.databinding.ActivityDecodeMp4GrafikaBinding;
+import com.example.openglcameraandvideotutorial.decode_mp4.DecodeMp4Activity;
+import com.example.openglcameraandvideotutorial.decode_mp4.MyRenderer;
 
-import java.io.BufferedOutputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
-import java.util.Objects;
 
-public class DecodeMp4Activity extends AppCompatActivity implements SurfaceTexture.OnFrameAvailableListener {
+public class DecodeMp4GrafikaActivity extends AppCompatActivity implements SurfaceTexture.OnFrameAvailableListener {
 
-    ActivityDecodeMp4Binding binding;
+    ActivityDecodeMp4GrafikaBinding binding;
     private PlayerThread mPlayer = null;
     private SurfaceTexture surfaceTexture;
     private Surface surface;
     int screenWidth, screenHeight;
-    MyRenderer renderer;
+    Mp4MultiSurfaceRenderer renderer;
     private static final String SAMPLE = "/storage/emulated/0/Download/test.mp4";
+
 
     ImageView imageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivityDecodeMp4Binding.inflate(getLayoutInflater());
+        binding = ActivityDecodeMp4GrafikaBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
         setContentView(view);
 
 
-        imageView = binding.img;
-
         getScreenDetails();
-        renderer = new MyRenderer(this, binding.img, binding.img2);
+        renderer = new Mp4MultiSurfaceRenderer(this);
 
         initGLSurfaceVew();
         surfaceTexture = renderer.createSurfaceTexture();
@@ -65,12 +59,10 @@ public class DecodeMp4Activity extends AppCompatActivity implements SurfaceTextu
             mPlayer.start();
         }
 
-        initListeners();
 
     }
 
-    private void initListeners() {
-    }
+
 
 
     private void getScreenDetails() {
@@ -88,6 +80,7 @@ public class DecodeMp4Activity extends AppCompatActivity implements SurfaceTextu
         binding.glSurfaceView.setRenderer(renderer);
         binding.glSurfaceView.setPreserveEGLContextOnPause(true);
         binding.glSurfaceView.setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);
+
 
     }
 
@@ -130,7 +123,7 @@ public class DecodeMp4Activity extends AppCompatActivity implements SurfaceTextu
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        Toast.makeText(DecodeMp4Activity.this, "" + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(DecodeMp4GrafikaActivity.this, "" + e.getMessage(), Toast.LENGTH_SHORT).show();
 
                     }
                 });
@@ -212,6 +205,4 @@ public class DecodeMp4Activity extends AppCompatActivity implements SurfaceTextu
             extractor.release();
         }
     }
-
-
 }

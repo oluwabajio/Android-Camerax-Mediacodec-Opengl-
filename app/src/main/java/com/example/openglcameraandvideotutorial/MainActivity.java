@@ -12,7 +12,9 @@ import android.view.View;
 
 import com.example.openglcameraandvideotutorial.cameraX.CameraActivity;
 import com.example.openglcameraandvideotutorial.databinding.ActivityMainBinding;
+import com.example.openglcameraandvideotutorial.decodeMp4Grafika.DecodeMp4GrafikaActivity;
 import com.example.openglcameraandvideotutorial.decode_mp4.DecodeMp4Activity;
+import com.example.openglcameraandvideotutorial.utils.PermissionHelper;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -26,8 +28,15 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
         setContentView(view);
-
         initListeners();
+
+        checkPermissions();
+    }
+
+    private void checkPermissions() {
+        if (!PermissionHelper.checkPermissions(this)) {
+            PermissionHelper.requestPermissions(this);
+        }
     }
 
     private void initListeners() {
@@ -38,6 +47,14 @@ public class MainActivity extends AppCompatActivity {
         binding.btnDecodeMp4.setOnClickListener(v -> {
             goToMp4DecodePage();
         });
+
+        binding.btnDecodeMp4MultipleSurface.setOnClickListener(v -> {
+            gotoMp4DecodeToMultipleSurface();
+        });
+    }
+
+    private void gotoMp4DecodeToMultipleSurface() {
+        startActivity(new Intent(this, DecodeMp4GrafikaActivity.class));
     }
 
     private void goToMp4DecodePage() {

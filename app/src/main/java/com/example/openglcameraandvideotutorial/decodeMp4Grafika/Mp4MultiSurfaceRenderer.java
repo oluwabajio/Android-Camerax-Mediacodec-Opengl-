@@ -1,7 +1,6 @@
-package com.example.openglcameraandvideotutorial.decode_mp4;
+package com.example.openglcameraandvideotutorial.decodeMp4Grafika;
 
 import android.app.Activity;
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.SurfaceTexture;
 import android.opengl.GLES11Ext;
@@ -12,11 +11,9 @@ import android.util.Log;
 import android.widget.ImageView;
 
 import com.example.openglcameraandvideotutorial.databinding.ActivityDecodeMp4Binding;
+import com.example.openglcameraandvideotutorial.decode_mp4.IVCGLLib;
+import com.example.openglcameraandvideotutorial.decode_mp4.MyRenderer;
 
-import java.io.BufferedOutputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
@@ -26,7 +23,7 @@ import java.nio.ShortBuffer;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
-public class MyRenderer implements GLSurfaceView.Renderer {
+public class Mp4MultiSurfaceRenderer   implements GLSurfaceView.Renderer {
     private static final String TAG = "MyRenderer";
     private int textureId;
     SurfaceTexture mSurfaceTexture;
@@ -39,12 +36,6 @@ public class MyRenderer implements GLSurfaceView.Renderer {
     int screenWidth, screenHeight;
     Activity context;
     ActivityDecodeMp4Binding binding;
-
-    Bitmap bitmap = null;
-    Bitmap bitmap2 = null;
-
-
-    ImageView imageView, imageView2;
 
 
     FloatBuffer verticesBuffer, textureVerticesPreviewBuffer;
@@ -70,10 +61,8 @@ public class MyRenderer implements GLSurfaceView.Renderer {
     private final short drawOrder[] = {0, 1, 2, 0, 2, 3}; // order to draw vertices
 
 
-    public MyRenderer(Activity context, ImageView imageView, ImageView imageView2) {
+    public Mp4MultiSurfaceRenderer(Activity context) {
         this.context = context;
-        this.imageView = imageView;
-        this.imageView2 = imageView2;
     }
 
 
@@ -170,19 +159,6 @@ public class MyRenderer implements GLSurfaceView.Renderer {
         GLES20.glDisableVertexAttribArray(mTextureCoordHandle);
 
 
-        //my code
-        bitmap = createBitmapFromGLSurface(0, 0, screenWidth, screenHeight);
-        bitmap2 = createBitmapFromGLSurface_(0, 0, screenWidth, screenHeight);
-
-        if (imageView != null) {
-            createBitmap(imageView);
-        }
-
-        if (imageView2 != null) {
-            createBitmap2(imageView2);
-        }
-        //my code ends
-
     }
 
 
@@ -258,40 +234,5 @@ public class MyRenderer implements GLSurfaceView.Renderer {
         }
     }
 
-    public void createBitmap(ImageView imageView) {
-        if (this.bitmap != null) {
-            context.runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    imageView.setImageBitmap(bitmap);
-                }
-            });
-
-
-//            this.imageView.setImageBitmap(bitmap);
-
-        } else {
-            Log.e(TAG, "createBitmap: Bitmap is null");
-        }
-
-    }
-
-    public void createBitmap2(ImageView imageView) {
-        if (this.bitmap2 != null) {
-
-            context.runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    imageView2.setImageBitmap(bitmap2);
-                }
-            });
-
-            //   this.imageView2.setImageBitmap(bitmap2);
-
-        } else {
-            Log.e(TAG, "createBitmap: Bitmap is null");
-        }
-
-    }
 
 }
